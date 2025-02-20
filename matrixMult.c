@@ -62,7 +62,12 @@ allocateAndLoadMatrices(int*** a, int*** b, int*** c, int* m, int* k, int* n)
    if (scanf("%d %d %d", m, k, n) == 0) {
       oops("Cannot read matrix sizes.\n", -2);
    } 
-   else if (scanf("%d %d %d", m, k, n) > 0) { // not sure if thats right
+   	*a = (int*)malloc(m * sizeof(int));
+
+        *b = (int*)malloc(m * sizeof(int));
+
+        *c = (int*)malloc(m * sizeof(int));
+
 
    }
    // TODO: implement
