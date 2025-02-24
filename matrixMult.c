@@ -18,7 +18,7 @@ main(int argc, char** argv)
    int** a1,** b1,** c1; 
    int** a2,** b2,** c2;
 
-   // dimensions of the matices m x k and k x n
+   // dimensions of the matrices m x k and k x n
    int m1, k1, n1;
    int m2, k2, n2; 
 
@@ -27,9 +27,14 @@ main(int argc, char** argv)
 
    // the real magic happens in there
 
-   // TODO: implement
+   pthread_t** tids1 = multiply(a1, b1, c1, m1, k1, n1);
+   pthread_t** tids2 = multiply(a2, b2, c2, m2, k2, n2);
 
-   // dispaly results of matrix multiplication
+   free_thread_ids(tids1, m1);
+   free_thread_ids(tids2, m2);
+
+
+   // display results of matrix multiplication
 
    printf("\nMATRIX A1\n");
    displayMatrix(a1, m1, k1);
@@ -53,94 +58,112 @@ main(int argc, char** argv)
 
    return 0;
 }
+int** allocMat(int* r, int* c) {
+   int **mallocMatrix = malloc(*r * sizeof(int *));
 
-void
-allocateAndLoadMatrices(int*** a, int*** b, int*** c, int* m, int* k, int* n)
+      for (int i = 0; i < *r; i++) {
+         mallocMatrix[i] = malloc(*c *  sizeof(int));
+   }
+   return mallocMatrix;
+}
+void allocateAndLoadMatrices(int*** a, int*** b, int*** c, int* m, int* k, int* n)
 // takes pointers to two-dimensional matrices, so they can be allocated in here
 // and used by the caller
 {
-   if (scanf("%d %d %d", m, k, n) == 0) {
+   if (scanf("%d %d %d", m, k, n) == 0)
       oops("Cannot read matrix sizes.\n", -2);
-   } 
-   	*a = (int*)malloc(m * sizeof(int));
 
-        *b = (int*)malloc(m * sizeof(int));
+      *a = allocMat(m, k);
+      *b = allocMat(m, k);
+      *c = allocMat(m, k);
 
-        *c = (int*)malloc(m * sizeof(int));
 
+      loadMatrix(a, *m, k);
+      loadMatrix(b, *m, k);
 
    }
-   // TODO: implement
-   //
-}
 
-void
-loadMatrix(int*** matrix, int m, int n)
-{ // done?
+
+
+void loadMatrix(int*** matrix, int m, int n) {
+   // done?
    for(int i = 0; i < m; i++) {
-   	for(int j = 0; j < n; j++) {
-		(*matrix)[i][j] = i * n + j;
-	}	
+      for(int j = 0; j < n; j++) {
+         scanf("%3d" (*matrix)[i][j]);
+      }
    }
 }
 
-void
-displayMatrix(int** matrix, int m, int n)
-{ // done?
+
+void displayMatrix(int **matrix, int m, int n) {
+   // done?
    for(int i = 0; i < m; i++) {
-  	for(int j = 0; j < n; j++) {
-		printf("%3d", matrix[i][j]);
+      for(int j = 0; j < n; j++) {
+         printf("%3d", matrix[i][j]);
+      }
+      printf("\n");
    }
-	printf("\n");
 }
+pthread_t** alloc_tids(int m, int n){ //done
+   pthread_t **tids = (pthread_t **) malloc( sizeof(pthread_t *) * m + sizeof(pthread_t *) * n * m);
+   pthread_t *rowPoint = (pthread_t *) (tids + m);
+      for(int i = 0; i < m; i++)
+         (tids[i]) = (rowPoint + n * i);
 
-pthread_t**
-alloc_tids(int m, int n)
-{
-   pthread_t **tids;
-
-   // TODO: implement
 
    return tids;
 }
 
-pthread_t**
-multiply(int** a, int** b, int** c, int m, int k, int n)
-{
-   pthread_t** thread_ids = alloc_tids(m, n);
+pthread_t** multiply(int** a, int** b, int** c, int m, int k, int n) { //done
+   pthread_t** tids = alloc_tids(m, n);
 
-   // TODO: implement
+   for (int i = 0; i < m; i++)
+      for (int j = 0; j < n; j++) {
 
-   return thread_ids;
+         MATRIX_CELL *cell = (MATRIX_CELL *) malloc(sizeof(MATRIX_CELL));
+         cell->i = i;
+         cell->j = j;
+         cell->k = k;
+         cell->a = a;
+         cell->b = b;
+         cell->c = c;
+         pthread_create(&((tids)[i][j]), NULL, matrixThread, (void *) cell);
+
+      }
+   join(tids, m, n);
+   return tids;
 }
 
-void*
-matrixThread(void* param)
-{
+void* matrixThread(void* param) {
    // map the parameter onto the structure
    MATRIX_CELL *cell = (MATRIX_CELL *)param;
+   int threadTotal = 0;
 
-   // TODO: implement
-
+   for (int index = 0; index < cell->k; index++) {
+      threadTotal += cell->a[cell->i][index] * cell->b[index][cell->j];
+   }
+   cell->c[cell->i][cell->j] = threadTotal;
    free(cell);
 
    return NULL;
 }
 
-void
-join(pthread_t** tids, int m, int n)
-{
-   // TODO: implement
+void join(pthread_t** tids, int m, int n) {
+   for (int i = 0; i < m; i++)
+      for (int j = 0; j < n; j++)
+         if (pthread_join(tids[i][j], NULL) != 0)
+            oops("Cannot join thread.\n", -2);
 }
 
-void
-free_thread_ids(pthread_t** tids, int m)
-{
-   // TODO: implement
-}
+void free_thread_ids(pthread_t** tids, int m) { //done
 
-void
-freeMatrix(int** matrix, int m)
-{
-   // TODO: implement
+   free(tids);
+
+   }
+
+void freeMatrix(int** matrix, int m) { //done
+   for (int i = 0; i < m; i++) {
+      free(matrix[i]);
+   }
+   free(matrix);
 }

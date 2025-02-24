@@ -19,10 +19,12 @@ typedef struct matrixCell
 
 void* matrixThread(void*);
 void allocateAndLoadMatrices(int***, int***, int***, int*, int*, int*);
+int** allocMat(int *, int*);
 void loadMatrix(int***, int, int);
 void freeMatrix(int**, int);
 pthread_t** alloc_tids(int, int);
 void free_thread_ids(pthread_t**, int);
 pthread_t** multiply(int**, int**, int**, int, int, int);
 void join(pthread_t**, int, int);
-void displayMatrix(int**, int, int);
+
+void displayMatrix(int **, int, int);
