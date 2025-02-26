@@ -74,12 +74,12 @@ void allocateAndLoadMatrices(int*** a, int*** b, int*** c, int* m, int* k, int* 
       oops("Cannot read matrix sizes.\n", -2);
 
       *a = allocMat(m, k);
-      *b = allocMat(m, k);
-      *c = allocMat(m, k);
+      *b = allocMat(k, n);
+      *c = allocMat(m, n);
 
 
       loadMatrix(a, *m, *k);
-      loadMatrix(b, *m, *k);
+      loadMatrix(b, *k, *n);
 
    }
 
