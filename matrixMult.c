@@ -58,11 +58,11 @@ main(int argc, char** argv)
 
    return 0;
 }
-int** allocMat(int* r, int* c) {
-   int **mallocMatrix = malloc(*r * sizeof(int *));
+int** allocMat(int* m, int* n) {
+   int **mallocMatrix = malloc(*m * sizeof(int *));
 
-      for (int i = 0; i < *r; i++) {
-         mallocMatrix[i] = malloc(*c *  sizeof(int));
+      for (int i = 0; i < *m; i++) {
+         mallocMatrix[i] = malloc(*n *  sizeof(int));
    }
    return mallocMatrix;
 }
@@ -78,8 +78,8 @@ void allocateAndLoadMatrices(int*** a, int*** b, int*** c, int* m, int* k, int* 
       *c = allocMat(m, k);
 
 
-      loadMatrix(a, *m, k);
-      loadMatrix(b, *m, k);
+      loadMatrix(a, *m, *k);
+      loadMatrix(b, *m, *k);
 
    }
 
@@ -89,7 +89,7 @@ void loadMatrix(int*** matrix, int m, int n) {
    // done?
    for(int i = 0; i < m; i++) {
       for(int j = 0; j < n; j++) {
-         scanf("%3d" (*matrix)[i][j]);
+         scanf("%d", &(*matrix)[i][j]);
       }
    }
 }
