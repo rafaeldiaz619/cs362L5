@@ -1,7 +1,7 @@
 /*
  * Name: Rafael Diaz
- * date: feb 20 2025
- * COMP 362 - Spring 2024
+ * date: feb 26 2025
+ * COMP 362 Operating Systems - Section 1 - Spring 2024
  */
 
 #include "matrixMult.h"
