@@ -1,3 +1,0 @@
-/Users/booman/Documents/GitHub/cs362L5/cmake-build-debug/CMakeFiles/matrixMult.dir
-/Users/booman/Documents/GitHub/cs362L5/cmake-build-debug/CMakeFiles/edit_cache.dir
-/Users/booman/Documents/GitHub/cs362L5/cmake-build-debug/CMakeFiles/rebuild_cache.dir
