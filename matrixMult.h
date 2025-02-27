@@ -26,5 +26,4 @@ pthread_t** alloc_tids(int, int);
 void free_thread_ids(pthread_t**, int);
 pthread_t** multiply(int**, int**, int**, int, int, int);
 void join(pthread_t**, int, int);
-
 void displayMatrix(int **, int, int);

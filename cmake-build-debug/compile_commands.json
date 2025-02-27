@@ -1,0 +1,8 @@
+[
+{
+  "directory": "C:/Users/rafae/CLionProjects/cs362L5/cmake-build-debug",
+  "command": "C:\\PROGRA~1\\JETBRA~1\\CLION2~1.3\\bin\\mingw\\bin\\gcc.exe  -D_FILE_OFFSET_BITS=64 -g -Wall --pedantic -g -O0 -D_DEBUG -std=gnu17 -fdiagnostics-color=always -o CMakeFiles\\matrixMult.dir\\matrixMult.c.obj -c C:\\Users\\rafae\\CLionProjects\\cs362L5\\matrixMult.c",
+  "file": "C:\\Users\\rafae\\CLionProjects\\cs362L5\\matrixMult.c",
+  "output": "CMakeFiles\\matrixMult.dir\\matrixMult.c.obj"
+}
+]

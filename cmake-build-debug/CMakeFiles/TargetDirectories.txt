@@ -1,0 +1,3 @@
+C:/Users/rafae/CLionProjects/cs362L5/cmake-build-debug/CMakeFiles/matrixMult.dir
+C:/Users/rafae/CLionProjects/cs362L5/cmake-build-debug/CMakeFiles/edit_cache.dir
+C:/Users/rafae/CLionProjects/cs362L5/cmake-build-debug/CMakeFiles/rebuild_cache.dir
