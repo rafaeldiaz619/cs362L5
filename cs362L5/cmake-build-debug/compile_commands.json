@@ -1,0 +1,8 @@
+[
+{
+  "directory": "/Users/booman/Documents/GitHub/cs362L5/cmake-build-debug",
+  "command": "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/cc  -D_FILE_OFFSET_BITS=64 -g -Wall --pedantic -g -O0 -D_DEBUG -std=gnu17 -arch arm64 -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX15.2.sdk -fcolor-diagnostics -o CMakeFiles/matrixMult.dir/matrixMult.o -c /Users/booman/Documents/GitHub/cs362L5/matrixMult.c",
+  "file": "/Users/booman/Documents/GitHub/cs362L5/matrixMult.c",
+  "output": "CMakeFiles/matrixMult.dir/matrixMult.o"
+}
+]
