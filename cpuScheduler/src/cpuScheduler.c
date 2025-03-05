@@ -1,7 +1,7 @@
 /*
- * Modified by:
- *
- * COMP 362 - Spring 2024
+ * Modified by: Rafael Diaz
+ * 3/4/25
+ * COMP 362 - Spring 2024 - Section 01
  * L06
  */
 
@@ -9,8 +9,7 @@
 
 static int quantum;
 
-int
-main(int argc, char** argv)
+int main(int argc, char** argv)
 {
 
 #ifdef _DEBUG
@@ -92,8 +91,7 @@ main(int argc, char** argv)
 /***
  * step executor
  */
-void
-doStep(void (*func)(void*), void* param)
+void doStep(void (*func)(void*), void* param)
 {
     func(param);
 }
@@ -101,8 +99,7 @@ doStep(void (*func)(void*), void* param)
 /***
  * function implementing a step of FCFS
  */
-void 
-fcfsStep(void* param)
+void fcfsStep(void* param)
 {
     ALGORITHM_PARAMS* p = (ALGORITHM_PARAMS *) param;
 
@@ -110,6 +107,7 @@ fcfsStep(void* param)
     if (p->cpu == NULL || p->cpu->burstTime == 0)
     {
         p->cpu = fetchFirstProcessFromReadyQueue(); //start executing the first process in the ready queue
+
         if (p->cpu != NULL)
             p->cpu->waitTime = p->time - p->cpu->entryTime; // update the wait time
     }
@@ -118,35 +116,98 @@ fcfsStep(void* param)
 /***
  * function implementing a step of SJF
  */
-void
-sjfStep(void* param)
+void sjfStep(void* param)
 {
-    // TODO: implement
+        ALGORITHM_PARAMS* p = (ALGORITHM_PARAMS *) param;
+
+        if (p->cpu == NULL || p->cpu->burstTime == 0) {
+
+          addArrivingProcessesToReadyQueue(p->time);
+          p->cpu = findShortestProcessInReadyQueue(); // executes shortest burst time in rque
+
+          if (p->cpu != NULL)
+            p->cpu->waitTime = p->time - p->cpu->entryTime; // updates wait time
+
+          }
 }
 
 /***
  * function implementing a step of SRTF
  */
-void 
-srtfStep(void* param)
+void srtfStep(void* param)
 {
-    // TODO: implement
+    ALGORITHM_PARAMS* p = (ALGORITHM_PARAMS *) param;
+    addArrivingProcessesToReadyQueue(p->time);
+
+    if (p->cpu == NULL || p->cpu->burstTime == 0) {
+
+      p->cpu = findShortestProcessInReadyQueue();
+
+      if (p->cpu) {
+
+        if(p->cpu->offTime == 0) {
+
+          p->cpu->waitTime += p->time - p->cpu->entryTime;
+
+        }
+
+          else {
+
+            p->cpu->waitTime += p->time - p->cpu->offTime; // updates wait time
+
+          }
+      }
+    }
+    else if (p->cpu->burstTime > findShortestProcessInReadyQueue()) {
+
+      p->cpu->offTime = p->time;
+      addProcessToReadyQueue(p->cpu);
+      p->cpu = findShortestProcessInReadyQueue();
+
+      if (p->cpu) {
+
+        p->cpu->waitTime += p->time - p->cpu->offTime; // updates wait time
+
+      }
+
+    }
 }
 
 /***
  * function implementing a step of RR
  */
-void
-rrStep(void* param)
+void rrStep(void* param)
 {
-    // TODO: implement
+    ALGORITHM_PARAMS* p = (ALGORITHM_PARAMS *) param;
+
+    if (p->cpu == NULL || p->cpu->burstTime == 0) {
+
+      p->cpu = fetchFirstProcessFromReadyQueue();
+      p->quantum = quantum;
+      p->cpu->waitTime = p->time - p->cpu->offTime;
+
+      }
+      if (p->quantum == 0) {
+        p->quantum = quantum;
+
+        if (p->cpu->burstTime > 0) {
+          p->cpu->offTime = p->time;
+          addProcessToReadyQueue(p->cpu);
+
+        }
+
+        p->cpu = fetchFirstProcessFromReadyQueue();
+        p->cpu->waitTime = p->time - p->cpu->offTime;
+
+        }
+
+        p->quantum--; //decrement quantum
 }
 
 /***
  * fills the process table with processes from input
  */
-int 
-readProcessTable()
+int readProcessTable()
 {
     PROCESS tempProcess = {
             .name = "",
